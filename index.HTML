@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRAFTLAND MEA CHANGER UID MAP</title>
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- خط Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* تخصيص زر رفع الملفات */
+        input[type="file"]::file-selector-button {
+            font-family: 'Cairo', sans-serif;
+            background-color: #3b82f6; /* bg-blue-600 */
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            font-weight: 600; /* semibold */
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #2563eb; /* bg-blue-700 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        /* أنيميشن لظهور الكرت */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-animation {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* تخصيص سهم قسم الشرح */
+        details summary {
+            list-style: none; /* إخفاء السهم الافتراضي */
+            cursor: pointer;
+        }
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+        details[open] summary .arrow-icon {
+            transform: rotate(90deg);
+        }
+        .arrow-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        /* كلاس لإخفاء/إظهار رابط التحميل مع أنيميشن */
+        #downloadLink.is-hidden {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+            pointer-events: none;
+        }
+        #downloadLink {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-indigo-900 text-gray-100 flex items-center justify-center min-h-screen p-4 overflow-hidden">
+
+    <div class="card-animation bg-gray-800/80 backdrop-blur-lg border border-gray-700 shadow-2xl shadow-indigo-500/20 rounded-xl p-8 w-full max-w-lg space-y-6">
+        
+        <!-- العنوان -->
+        <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+                CRAFTLAND MEA
+            </h1>
+            <p class="text-xl font-semibold text-gray-300">CHANGER UID MAP</p>
+        </div>
+
+        <!-- شرح كيفية الاستخدام -->
+        <details class="bg-gray-900/50 rounded-lg p-4 transition duration-300">
+            <summary class="flex justify-between items-center font-semibold text-lg text-white">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    شرح كيفية الاستخدام
+                </span>
+                <svg class="w-5 h-5 text-gray-400 arrow-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </summary>
+            <ul class="list-disc list-inside mt-4 pr-4 space-y-2 text-gray-300">
+                <li>ارفع ملف <code class="bg-gray-700 p-1 rounded-md text-sm">.bytes</code> الخاص بك.</li>
+                <li>اضغط <strong>"حذف UID"</strong> لإزالة البصمة.</li>
+                <li>أو اضغط <strong>"إضافة UID"</strong> لإرجاع بصمة رمزية.</li>
+                <li>حمّل ملفك المعدل (سيحتفظ باسمه الأصلي).</li>
+            </ul>
+        </details>
+
+        <!-- منطقة رفع الملف -->
+        <div>
+            <label for="fileInput" class="block mb-2 text-sm font-medium text-gray-300">اختر ملف:</label>
+            <input type="file" id="fileInput" accept=".bytes" class="block w-full text-sm text-gray-400
+                file:mr-4 file:ml-2 file:py-2 file:px-4
+                file:rounded-lg file:border-0
+                file:text-sm file:font-semibold
+                file:bg-blue-600 file:text-white
+                hover:file:bg-blue-700
+                file:cursor-pointer
+                file:transition-all file:duration-300
+                hover:file:shadow-lg hover:file:shadow-blue-500/30
+            "/>
+        </div>
+
+        <!-- أزرار التحكم -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button id="removeBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-xl hover:shadow-red-500/30">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                </svg>
+                حذف UID
+            </button>
+            <button id="addBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-xl hover:shadow-green-500/30">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                </svg>
+                إضافة UID
+            </button>
+        </div>
+
+        <!-- منطقة الرسائل والتحميل -->
+        <div id="statusContainer" class="mt-4 text-center space-y-4 h-20 flex flex-col justify-center items-center">
+            <p id="statusMessage" class="text-gray-400 h-5 transition-all duration-300"></p>
+            <a id="downloadLink" class="is-hidden inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                تحميل الملف (بنسق الاسم)
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // --- عناصر الواجهة ---
+        const fileInput = document.getElementById('fileInput');
+        const removeBtn = document.getElementById('removeBtn');
+        const addBtn = document.getElementById('addBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const downloadLink = document.getElementById('downloadLink');
+
+        let selectedFile = null;
+        let originalFileName = '';
+
+        // --- مراقبة اختيار الملف ---
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.name.toLowerCase().endsWith('.bytes')) {
+                    selectedFile = file;
+                    originalFileName = file.name;
+                    showMessage('تم اختيار الملف. اختر العملية المطلوبة.', 'info');
+                    downloadLink.classList.add('is-hidden');
+                } else {
+                    showMessage('خطأ: الملف غير صالح. يجب أن يكون بامتداد .bytes', 'error');
+                    fileInput.value = ''; // مسح الإدخال
+                    selectedFile = null;
+                    originalFileName = '';
+                }
+            }
+        });
+
+        // --- زر الحذف ---
+        removeBtn.addEventListener('click', () => {
+            if (!selectedFile) {
+                showMessage('الرجاء اختيار ملف أولاً.', 'error');
+                return;
+            }
+            // لم نعد بحاجة لإرسال البادئة
+            processFile(removeUidPattern);
+        });
+
+        // --- زر الإضافة ---
+        addBtn.addEventListener('click', () => {
+            if (!selectedFile) {
+                showMessage('الرجاء اختيار ملف أولاً.', 'error');
+                return;
+            }
+            // لم نعد بحاجة لإرسال البادئة
+            processFile(addUidPattern);
+        });
+
+        /**
+         * دالة مساعدة لإظهار الرسائل للمستخدم
+         */
+        function showMessage(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.classList.remove('text-green-400', 'text-red-400', 'text-gray-400');
+            if (type === 'success') {
+                statusMessage.classList.add('text-green-400');
+            } else if (type === 'error') {
+                statusMessage.classList.add('text-red-400');
+            } else {
+                statusMessage.classList.add('text-gray-400');
+            }
+        }
+
+        /**
+         * المعالج الرئيسي للملفات
+         * @param {function} processorFunction - الدالة التي ستنفذ (إضافة أو حذف)
+         */
+        async function processFile(processorFunction) {
+            showMessage('جاري معالجة الملف...', 'info');
+            downloadLink.classList.add('is-hidden');
+
+            try {
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                const data = new Uint8Array(arrayBuffer);
+                
+                // استدعاء دالة المعالجة
+                const result = processorFunction(data);
+
+                if (!result.success) {
+                    showMessage(result.message, 'error');
+                    return;
+                }
+
+                // إنشاء ملف جديد وتجهيز رابط التحميل
+                const newBlob = new Blob([result.modifiedData], { type: 'application/octet-stream' });
+                const downloadUrl = URL.createObjectURL(newBlob);
+                
+                downloadLink.href = downloadUrl;
+                
+                // --- !! التغيير المطلوب !! ---
+                // استخدام اسم الملف الأصلي مباشرة
+                downloadLink.download = originalFileName;
+                downloadLink.textContent = `تحميل "${originalFileName}"`; // تحديث نص الرابط
+                // --- نهاية التغيير ---
+                
+                downloadLink.classList.remove('is-hidden');
+                
+                showMessage('تمت المعالجة بنجاح. الملف جاهز للتحميل.', 'success');
+
+            } catch (error) {
+                console.error('Error processing file:', error);
+                showMessage('حدث خطأ غير متوقع أثناء المعالجة.', 'error');
+            } finally {
+                // مسح الإدخال للسماح برفع نفس الملف مرة أخرى
+                // لكننا نحتفظ بالمتغيرات لإعادة الاستخدام إذا لزم الأمر
+                fileInput.value = '';
+                selectedFile = null;
+                // originalFileName = ''; // نتركها للاستخدام في الرابط
+            }
+        }
+
+
+        // -----------------------------------
+        // منطق الحذف (مطابق للبايثون)
+        // -----------------------------------
+        /**
+         * @param {Uint8Array} data
+         * @returns {{modifiedData: Uint8Array, success: boolean, message: string}}
+         */
+        function removeUidPattern(data) {
+            const buffer = data;
+            let index = -1;
+            
+            for (let i = buffer.length - 7; i >= 0; i--) {
+                if (buffer[i] === 0x38 && buffer[i + 6] === 0x42) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index === -1) {
+                return { modifiedData: data, success: false, message: 'النمط (0x38......0x42) غير موجود.' };
+            }
+
+            const newBuf = new Uint8Array(buffer.length - 4);
+            newBuf.set(buffer.subarray(0, index), 0);
+            newBuf.set([0x38, 0x00, 0x42], index);
+            newBuf.set(buffer.subarray(index + 7), index + 3);
+
+            return { modifiedData: newBuf, success: true, message: 'تم الحذف' };
+        }
+
+        // -----------------------------------
+        // منطق الإضافة (مطابق للبايثون)
+        // -----------------------------------
+        /**
+         * @param {Uint8Array} data
+         * @returns {{modifiedData: Uint8Array, success: boolean, message: string}}
+         */
+        function addUidPattern(data) {
+            const buffer = data;
+            let index = -1;
+
+            for (let i = 0; i < buffer.length - 2; i++) {
+                if (buffer[i] === 0x38 && buffer[i + 1] === 0x00 && buffer[i + 2] === 0x42) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index === -1) {
+                return { modifiedData: data, success: false, message: 'النمط (0x38 00 42) غير موجود للإضافة.' };
+            }
+
+            const insertBytes = new Uint8Array([0x11, 0x22, 0x33, 0x44]);
+            const newBuf = new Uint8Array(buffer.length + 4);
+
+            newBuf.set(buffer.subarray(0, index + 1), 0);
+            newBuf.set(insertBytes, index + 1);
+            newBuf.set(buffer.subarray(index + 1), index + 5);
+
+            return { modifiedData: newBuf, success: true, message: 'تمت الإضافة' };
+        }
+    </script>
+</body>
+</html>
+
