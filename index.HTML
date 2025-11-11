@@ -107,7 +107,6 @@
             <ul class="list-disc list-inside mt-4 pr-4 space-y-2 text-gray-300">
                 <li>ارفع ملف <code class="bg-gray-700 p-1 rounded-md text-sm">.bytes</code> الخاص بك.</li>
                 <li>اضغط <strong>"حذف UID"</strong> لإزالة البصمة.</li>
-                <li>أو اضغط <strong>"إضافة UID"</strong> لإرجاع بصمة رمزية.</li>
                 <li>حمّل ملفك المعدل (سيحتفظ باسمه الأصلي).</li>
             </ul>
         </details>
@@ -127,19 +126,13 @@
             "/>
         </div>
 
-        <!-- أزرار التحكم -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- زر التحكم (تم إزالة Grid وجعله زر واحد) -->
+        <div class="w-full">
             <button id="removeBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-xl hover:shadow-red-500/30">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                 </svg>
                 حذف UID
-            </button>
-            <button id="addBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-xl hover:shadow-green-500/30">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                </svg>
-                إضافة UID
             </button>
         </div>
 
@@ -159,7 +152,6 @@
         // --- عناصر الواجهة ---
         const fileInput = document.getElementById('fileInput');
         const removeBtn = document.getElementById('removeBtn');
-        const addBtn = document.getElementById('addBtn');
         const statusMessage = document.getElementById('statusMessage');
         const downloadLink = document.getElementById('downloadLink');
 
@@ -173,7 +165,7 @@
                 if (file.name.toLowerCase().endsWith('.bytes')) {
                     selectedFile = file;
                     originalFileName = file.name;
-                    showMessage('تم اختيار الملف. اختر العملية المطلوبة.', 'info');
+                    showMessage('تم اختيار الملف. اضغط حذف UID للمعالجة.', 'info');
                     downloadLink.classList.add('is-hidden');
                 } else {
                     showMessage('خطأ: الملف غير صالح. يجب أن يكون بامتداد .bytes', 'error');
@@ -190,18 +182,7 @@
                 showMessage('الرجاء اختيار ملف أولاً.', 'error');
                 return;
             }
-            // لم نعد بحاجة لإرسال البادئة
             processFile(removeUidPattern);
-        });
-
-        // --- زر الإضافة ---
-        addBtn.addEventListener('click', () => {
-            if (!selectedFile) {
-                showMessage('الرجاء اختيار ملف أولاً.', 'error');
-                return;
-            }
-            // لم نعد بحاجة لإرسال البادئة
-            processFile(addUidPattern);
         });
 
         /**
@@ -221,7 +202,7 @@
 
         /**
          * المعالج الرئيسي للملفات
-         * @param {function} processorFunction - الدالة التي ستنفذ (إضافة أو حذف)
+         * @param {function} processorFunction - الدالة التي ستنفذ
          */
         async function processFile(processorFunction) {
             showMessage('جاري معالجة الملف...', 'info');
@@ -245,25 +226,21 @@
                 
                 downloadLink.href = downloadUrl;
                 
-                // --- !! التغيير المطلوب !! ---
                 // استخدام اسم الملف الأصلي مباشرة
                 downloadLink.download = originalFileName;
-                downloadLink.textContent = `تحميل "${originalFileName}"`; // تحديث نص الرابط
-                // --- نهاية التغيير ---
+                downloadLink.textContent = `تحميل "${originalFileName}"`; 
                 
                 downloadLink.classList.remove('is-hidden');
                 
-                showMessage('تمت المعالجة بنجاح. الملف جاهز للتحميل.', 'success');
+                showMessage('تمت إزالة UID بنجاح. الملف جاهز للتحميل.', 'success');
 
             } catch (error) {
                 console.error('Error processing file:', error);
                 showMessage('حدث خطأ غير متوقع أثناء المعالجة.', 'error');
             } finally {
                 // مسح الإدخال للسماح برفع نفس الملف مرة أخرى
-                // لكننا نحتفظ بالمتغيرات لإعادة الاستخدام إذا لزم الأمر
                 fileInput.value = '';
                 selectedFile = null;
-                // originalFileName = ''; // نتركها للاستخدام في الرابط
             }
         }
 
@@ -298,38 +275,8 @@
             return { modifiedData: newBuf, success: true, message: 'تم الحذف' };
         }
 
-        // -----------------------------------
-        // منطق الإضافة (مطابق للبايثون)
-        // -----------------------------------
-        /**
-         * @param {Uint8Array} data
-         * @returns {{modifiedData: Uint8Array, success: boolean, message: string}}
-         */
-        function addUidPattern(data) {
-            const buffer = data;
-            let index = -1;
-
-            for (let i = 0; i < buffer.length - 2; i++) {
-                if (buffer[i] === 0x38 && buffer[i + 1] === 0x00 && buffer[i + 2] === 0x42) {
-                    index = i;
-                    break;
-                }
-            }
-
-            if (index === -1) {
-                return { modifiedData: data, success: false, message: 'النمط (0x38 00 42) غير موجود للإضافة.' };
-            }
-
-            const insertBytes = new Uint8Array([0x11, 0x22, 0x33, 0x44]);
-            const newBuf = new Uint8Array(buffer.length + 4);
-
-            newBuf.set(buffer.subarray(0, index + 1), 0);
-            newBuf.set(insertBytes, index + 1);
-            newBuf.set(buffer.subarray(index + 1), index + 5);
-
-            return { modifiedData: newBuf, success: true, message: 'تمت الإضافة' };
-        }
     </script>
 </body>
 </html>
+
 
