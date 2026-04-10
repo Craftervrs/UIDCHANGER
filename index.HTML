@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAFTLAND MEA EDITOR | PRO</title>
+    <title>CRAFTLAND MEA CHANGER UID MAP</title>
     <!-- تحميل Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- خط Cairo -->
@@ -12,471 +12,322 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --primary-glow: conic-gradient(from 180deg at 50% 50%, #2a8af6 0deg, #a853ba 180deg, #e92a67 360deg);
-        }
-
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: #0f172a;
-            overflow-x: hidden;
         }
 
-        /* خلفية متحركة */
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle at 50% 50%, rgba(76, 29, 149, 0.2), rgba(15, 23, 42, 1));
-            z-index: -1;
-        }
-
-        .orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-            border-radius: 50%;
-            animation: float 10s infinite ease-in-out;
-        }
-        .orb:nth-child(1) { top: -100px; left: -100px; animation-delay: 0s; }
-        .orb:nth-child(2) { bottom: -100px; right: -100px; background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%); animation-delay: -5s; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 50px); }
-        }
-
-        /* تأثير الزجاج */
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        /* تخصيص Input File */
-        .file-drop-area {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 2rem;
-            border: 2px dashed rgba(148, 163, 184, 0.4);
-            border-radius: 1rem;
-            transition: 0.3s;
-            background: rgba(15, 23, 42, 0.3);
+        /* تخصيص زر رفع الملفات */
+        input[type="file"]::file-selector-button {
+            font-family: 'Cairo', sans-serif;
+            background-color: #3b82f6; /* bg-blue-600 */
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
             cursor: pointer;
-            overflow: hidden;
-        }
-        
-        .file-drop-area:hover {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease-in-out;
+            font-weight: 600; /* semibold */
         }
 
-        .file-drop-area input {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        /* Animations */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-entry {
-            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* أزرار مخصصة */
-        .btn-modern {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            z-index: 1;
-        }
-        .btn-modern::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            z-index: -1;
-            transform: skewX(-20deg);
-        }
-        .btn-modern:hover::before {
-            width: 150%;
-        }
-        .btn-modern:hover {
+        input[type="file"]::file-selector-button:hover {
+            background-color: #2563eb; /* bg-blue-700 */
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
         }
 
-        /* تفاصيل الشرح */
+        /* أنيميشن لظهور الكرت */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-animation {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* تخصيص سهم قسم الشرح */
         details summary {
-            list-style: none;
+            list-style: none; /* إخفاء السهم الافتراضي */
+            cursor: pointer;
         }
         details summary::-webkit-details-marker {
             display: none;
         }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
+        details[open] summary .arrow-icon {
+            transform: rotate(90deg);
         }
-        details[open] .accordion-content {
-            max-height: 200px; 
-        }
-        details[open] summary .chevron {
-            transform: rotate(180deg);
+        .arrow-icon {
+            transition: transform 0.2s ease-in-out;
         }
         
-        /* Input Field Styling */
-        .custom-input {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            transition: all 0.3s;
+        /* كلاس لإخفاء/إظهار رابط التحميل مع أنيميشن */
+        #downloadLink.is-hidden {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+            pointer-events: none;
         }
-        .custom-input:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569; 
-        }
-        
-        .download-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        .download-btn.is-hidden {
-            display: none;
+        #downloadLink {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4 text-gray-200">
+<body class="bg-gradient-to-br from-gray-900 to-indigo-900 text-gray-100 flex items-center justify-center min-h-screen p-4 overflow-hidden">
 
-    <!-- خلفية جمالية -->
-    <div class="animated-bg">
-        <div class="orb"></div>
-        <div class="orb"></div>
-    </div>
-
-    <div class="glass-panel w-full max-w-lg rounded-2xl p-8 animate-entry relative overflow-hidden">
+    <div class="card-animation bg-gray-800/80 backdrop-blur-lg border border-gray-700 shadow-2xl shadow-indigo-500/20 rounded-xl p-8 w-full max-w-lg space-y-6">
         
-        <!-- تأثير جمالي علوي -->
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
-
         <!-- العنوان -->
-        <div class="text-center mb-8 relative">
-            <div class="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-full mb-4 ring-1 ring-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                </svg>
-            </div>
-            <h1 class="text-3xl font-extrabold tracking-tight text-white mb-1">
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">CRAFTLAND</span> MEA
+        <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+                CRAFTLAND MEA
             </h1>
-            <p class="text-xs font-medium text-gray-400 tracking-[0.2em] uppercase">Advanced Byte Editor</p>
+            <p class="text-xl font-semibold text-gray-300">CHANGER UID MAP</p>
         </div>
 
-        <!-- شرح كيفية الاستخدام (Accordion) -->
-        <details class="group bg-slate-800/50 rounded-xl mb-6 border border-slate-700/50 hover:border-slate-600 transition-colors">
-            <summary class="flex justify-between items-center p-4 cursor-pointer font-medium text-slate-300 select-none">
-                <div class="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <!-- شرح كيفية الاستخدام -->
+        <details class="bg-gray-900/50 rounded-lg p-4 transition duration-300">
+            <summary class="flex justify-between items-center font-semibold text-lg text-white">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                     </svg>
-                    <span>تعليمات الاستخدام</span>
-                </div>
-                <svg class="w-5 h-5 text-gray-500 transition-transform duration-300 chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    شرح كيفية الاستخدام
+                </span>
+                <svg class="w-5 h-5 text-gray-400 arrow-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </summary>
-            <div class="accordion-content px-4 pb-4">
-                <ul class="space-y-2 text-sm text-gray-400 border-t border-slate-700/50 pt-2">
-                    <li class="flex items-start gap-2">
-                        <span class="text-blue-500 mt-1">•</span>
-                        <span>ارفع ملف بصيغة <code class="bg-slate-700 px-1.5 py-0.5 rounded text-blue-300 font-mono text-xs">.bytes</code></span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-blue-500 mt-1">•</span>
-                        <span>سيقوم النظام بتحليل الملف وكشف المعرف (ID) تلقائياً.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-blue-500 mt-1">•</span>
-                        <span>يمكنك تعديل المعرف أو حذفه بالكامل، ثم تحميل النسخة الجديدة.</span>
-                    </li>
-                </ul>
-            </div>
+            <ul class="list-disc list-inside mt-4 pr-4 space-y-2 text-gray-300">
+                <li>ارفع ملف <code class="bg-gray-700 p-1 rounded-md text-sm">.bytes</code> الخاص بك.</li>
+                <li>اضغط <strong>"حذف UID"</strong> لإزالة البصمة.</li>
+                <li>أو اضغط <strong>"إضافة UID"</strong> لإرجاع بصمة رمزية.</li>
+                <li>حمّل ملفك المعدل (سيحتفظ باسمه الأصلي).</li>
+            </ul>
         </details>
 
-        <!-- منطقة رفع الملف (Dropzone) -->
-        <div class="mb-6">
-            <div class="file-drop-area group">
-                <input type="file" id="fileInput" accept=".bytes">
-                <div class="text-center pointer-events-none z-10">
-                    <div class="bg-slate-800/80 p-3 rounded-full inline-flex mb-3 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                        </svg>
-                    </div>
-                    <p class="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
-                        اضغط هنا لاختيار ملف
-                        <span class="block text-xs text-gray-500 mt-1 font-normal">أو اسحب الملف هنا</span>
-                    </p>
-                    <p id="fileNameDisplay" class="text-xs text-emerald-400 mt-2 font-mono hidden truncate max-w-[250px] mx-auto"></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- منطقة التعديل -->
-        <div id="idSelectionArea" class="hidden space-y-5 animate-entry" style="animation-delay: 0.1s;">
-            
-            <!-- عرض المعرف الحالي -->
-            <div class="bg-slate-900/50 rounded-lg p-4 border-r-4 border-blue-500 flex items-center justify-between">
-                <div class="text-sm text-gray-400">المعرف الحالي (ID):</div>
-                <div id="currentIdDisplay" class="font-mono text-xl font-bold text-white tracking-wider">---</div>
-            </div>
-
-            <!-- إدخال المعرف الجديد -->
-            <div class="relative">
-                <label for="newIdInput" class="block text-xs font-semibold text-gray-400 mb-2 mr-1">المعرف الجديد</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 right-0 pl-3 flex items-center pointer-events-none pr-3">
-                        <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </div>
-                    <input type="number" id="newIdInput" placeholder="أدخل الرقم الجديد هنا..." 
-                        class="custom-input block w-full pr-10 pl-3 py-3 rounded-lg text-white placeholder-gray-500 focus:outline-none sm:text-sm text-left font-mono" dir="ltr">
-                </div>
-            </div>
+        <!-- منطقة رفع الملف -->
+        <div>
+            <label for="fileInput" class="block mb-2 text-sm font-medium text-gray-300">اختر ملف:</label>
+            <input type="file" id="fileInput" accept=".bytes" class="block w-full text-sm text-gray-400
+                file:mr-4 file:ml-2 file:py-2 file:px-4
+                file:rounded-lg file:border-0
+                file:text-sm file:font-semibold
+                file:bg-blue-600 file:text-white
+                hover:file:bg-blue-700
+                file:cursor-pointer
+                file:transition-all file:duration-300
+                hover:file:shadow-lg hover:file:shadow-blue-500/30
+            "/>
         </div>
 
         <!-- أزرار التحكم -->
-        <div class="grid grid-cols-2 gap-4 mt-6">
-            <button id="updateBtn" disabled class="btn-modern bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-3.5 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-900/30">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v3.276a1 1 0 01-2 0V14.907a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button id="removeBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-xl hover:shadow-red-500/30">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                 </svg>
-                تحديث
+                حذف UID
             </button>
-            <button id="removeBtn" disabled class="btn-modern bg-gradient-to-r from-red-600 to-pink-600 text-white font-bold py-3.5 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-red-900/30">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+            <button id="addBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg hover:shadow-xl hover:shadow-green-500/30">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
                 </svg>
-                حذف
+                إضافة UID
             </button>
         </div>
 
-        <!-- منطقة الحالة والتحميل -->
-        <div id="statusContainer" class="mt-6 text-center min-h-[60px]">
-            <p id="statusMessage" class="text-sm font-medium text-gray-400 transition-all duration-300"></p>
-            
-            <a id="downloadLink" class="btn-modern download-btn text-white font-bold py-3 px-8 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.4)] mt-4 inline-flex items-center gap-2 is-hidden hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+        <!-- منطقة الرسائل والتحميل -->
+        <div id="statusContainer" class="mt-4 text-center space-y-4 h-20 flex flex-col justify-center items-center">
+            <p id="statusMessage" class="text-gray-400 h-5 transition-all duration-300"></p>
+            <a id="downloadLink" class="is-hidden inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-                تحميل الملف المعدل
+                تحميل الملف (بنسق الاسم)
             </a>
-        </div>
-        
-        <div class="mt-8 text-center border-t border-slate-700 pt-4">
-             <p class="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Secure Local Processing</p>
         </div>
     </div>
 
-    <!-- الكود البرمجي الأصلي (المنطق) -->
     <script>
+        // --- عناصر الواجهة ---
         const fileInput = document.getElementById('fileInput');
-        const updateBtn = document.getElementById('updateBtn');
         const removeBtn = document.getElementById('removeBtn');
+        const addBtn = document.getElementById('addBtn');
         const statusMessage = document.getElementById('statusMessage');
         const downloadLink = document.getElementById('downloadLink');
-        const idSelectionArea = document.getElementById('idSelectionArea');
-        const currentIdDisplay = document.getElementById('currentIdDisplay'); // تم تغيير العنصر لعرض ID واحد
-        const newIdInput = document.getElementById('newIdInput');
-        const fileNameDisplay = document.getElementById('fileNameDisplay');
 
-        let fileData = null;
+        let selectedFile = null;
         let originalFileName = '';
-        let foundIds = [];
-        let selectedIdx = -1;
 
-        fileInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            originalFileName = file.name;
-            fileNameDisplay.textContent = file.name;
-            fileNameDisplay.classList.remove('hidden');
-            
-            const arrayBuffer = await file.arrayBuffer();
-            fileData = new Uint8Array(arrayBuffer);
-            
-            newIdInput.value = "";
-            downloadLink.classList.add('is-hidden');
-            statusMessage.textContent = "جاري تحليل الملف...";
-            
-            // تأخير بسيط لإعطاء شعور بالمعالجة
-            setTimeout(() => {
-                analyzeFile();
-            }, 300);
-        });
-
-        function decodeVarint(data, start) {
-            let v = 0n;
-            let shift = 0n;
-            let i = start;
-            try {
-                while (i < data.length) {
-                    let b = data[i];
-                    v |= BigInt(b & 0x7F) << shift;
-                    if (!(b & 0x80)) return { value: v, length: i - start + 1 };
-                    shift += 7n;
-                    i++;
-                }
-            } catch(e) {}
-            return null;
-        }
-
-        function encodeVarint(n) {
-            let out = [];
-            let val = BigInt(n);
-            if (val === 0n) return new Uint8Array([0]);
-            while (val > 0x7Fn) {
-                out.push(Number((val & 0x7Fn) | 0x80n));
-                val >>= 7n;
-            }
-            out.push(Number(val));
-            return new Uint8Array(out);
-        }
-
-        function analyzeFile() {
-            foundIds = [];
-            for (let i = 0; i < fileData.length - 1; i++) {
-                if (fileData[i] === 0x38) {
-                    const res = decodeVarint(fileData, i + 1);
-                    if (res && res.value > 1000000n) {
-                        const next = fileData[i + 1 + res.length];
-                        foundIds.push({
-                            value: res.value,
-                            offset: i + 1,
-                            length: res.length,
-                            isTarget: (next === 0x42)
-                        });
-                    }
+        // --- مراقبة اختيار الملف ---
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.name.toLowerCase().endsWith('.bytes')) {
+                    selectedFile = file;
+                    originalFileName = file.name;
+                    showMessage('تم اختيار الملف. اختر العملية المطلوبة.', 'info');
+                    downloadLink.classList.add('is-hidden');
+                } else {
+                    showMessage('خطأ: الملف غير صالح. يجب أن يكون بامتداد .bytes', 'error');
+                    fileInput.value = ''; // مسح الإدخال
+                    selectedFile = null;
+                    originalFileName = '';
                 }
             }
-
-            if (foundIds.length > 0) {
-                idSelectionArea.classList.remove('hidden');
-                updateBtn.disabled = false;
-                removeBtn.disabled = false;
-                
-                // المنطق الأصلي لاختيار الـ ID الأنسب
-                const sorted = [...foundIds].sort((a, b) => {
-                    if (a.isTarget && !b.isTarget) return -1;
-                    if (!a.isTarget && b.isTarget) return 1;
-                    return b.value.toString().length - a.value.toString().length;
-                });
-
-                const mainId = sorted[0];
-                selectedIdx = foundIds.indexOf(mainId);
-                
-                // عرض الـ ID في الواجهة الجديدة
-                currentIdDisplay.textContent = mainId.value;
-                
-                showMessage(`تم استخراج المعرف بنجاح`, 'success');
-            } else {
-                idSelectionArea.classList.add('hidden');
-                updateBtn.disabled = true;
-                removeBtn.disabled = true;
-                currentIdDisplay.textContent = "---";
-                showMessage('لم يتم العثور على بيانات قابلة للتعديل', 'error');
-            }
-        }
-
-        updateBtn.addEventListener('click', () => {
-            const newVal = newIdInput.value;
-            if (!newVal) return showMessage('يرجى كتابة رقم المعرف الجديد أولاً', 'error');
-            
-            // إضافة تأثير تحميل بسيط على الزر
-            const originalText = updateBtn.innerHTML;
-            updateBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-            
-            setTimeout(() => {
-                process(encodeVarint(newVal));
-                updateBtn.innerHTML = originalText;
-            }, 500);
         });
 
+        // --- زر الحذف ---
         removeBtn.addEventListener('click', () => {
-             // إضافة تأثير تحميل بسيط على الزر
-             const originalText = removeBtn.innerHTML;
-             removeBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-             
-             setTimeout(() => {
-                process(new Uint8Array([0x00])); // قد تحتاج لتعديل المنطق إذا كان الحذف يعني إزالة البايتات
-                removeBtn.innerHTML = originalText;
-            }, 500);
+            if (!selectedFile) {
+                showMessage('الرجاء اختيار ملف أولاً.', 'error');
+                return;
+            }
+            // لم نعد بحاجة لإرسال البادئة
+            processFile(removeUidPattern);
         });
 
-        function process(newBytes) {
-            try {
-                const target = foundIds[selectedIdx];
-                // إنشاء مصفوفة جديدة بالبيانات المعدلة
-                const newFile = new Uint8Array(fileData.length - target.length + newBytes.length);
-                newFile.set(fileData.slice(0, target.offset));
-                newFile.set(newBytes, target.offset);
-                newFile.set(fileData.slice(target.offset + target.length), target.offset + newBytes.length);
+        // --- زر الإضافة ---
+        addBtn.addEventListener('click', () => {
+            if (!selectedFile) {
+                showMessage('الرجاء اختيار ملف أولاً.', 'error');
+                return;
+            }
+            // لم نعد بحاجة لإرسال البادئة
+            processFile(addUidPattern);
+        });
 
-                const blob = new Blob([newFile], { type: 'application/octet-stream' });
-                downloadLink.href = URL.createObjectURL(blob);
-                downloadLink.download = "MOD_" + originalFileName;
+        /**
+         * دالة مساعدة لإظهار الرسائل للمستخدم
+         */
+        function showMessage(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.classList.remove('text-green-400', 'text-red-400', 'text-gray-400');
+            if (type === 'success') {
+                statusMessage.classList.add('text-green-400');
+            } else if (type === 'error') {
+                statusMessage.classList.add('text-red-400');
+            } else {
+                statusMessage.classList.add('text-gray-400');
+            }
+        }
+
+        /**
+         * المعالج الرئيسي للملفات
+         * @param {function} processorFunction - الدالة التي ستنفذ (إضافة أو حذف)
+         */
+        async function processFile(processorFunction) {
+            showMessage('جاري معالجة الملف...', 'info');
+            downloadLink.classList.add('is-hidden');
+
+            try {
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                const data = new Uint8Array(arrayBuffer);
+                
+                // استدعاء دالة المعالجة
+                const result = processorFunction(data);
+
+                if (!result.success) {
+                    showMessage(result.message, 'error');
+                    return;
+                }
+
+                // إنشاء ملف جديد وتجهيز رابط التحميل
+                const newBlob = new Blob([result.modifiedData], { type: 'application/octet-stream' });
+                const downloadUrl = URL.createObjectURL(newBlob);
+                
+                downloadLink.href = downloadUrl;
+                
+                // --- !! التغيير المطلوب !! ---
+                // استخدام اسم الملف الأصلي مباشرة
+                downloadLink.download = originalFileName;
+                downloadLink.textContent = `تحميل "${originalFileName}"`; // تحديث نص الرابط
+                // --- نهاية التغيير ---
                 
                 downloadLink.classList.remove('is-hidden');
-                // جعل زر التحميل يهتز لجذب الانتباه
-                downloadLink.classList.add('animate-bounce');
-                setTimeout(() => downloadLink.classList.remove('animate-bounce'), 2000);
                 
-                showMessage('تم التعديل! الملف جاهز للتحميل', 'success');
-            } catch (err) {
-                showMessage('حدث خطأ أثناء المعالجة', 'error');
+                showMessage('تمت المعالجة بنجاح. الملف جاهز للتحميل.', 'success');
+
+            } catch (error) {
+                console.error('Error processing file:', error);
+                showMessage('حدث خطأ غير متوقع أثناء المعالجة.', 'error');
+            } finally {
+                // مسح الإدخال للسماح برفع نفس الملف مرة أخرى
+                // لكننا نحتفظ بالمتغيرات لإعادة الاستخدام إذا لزم الأمر
+                fileInput.value = '';
+                selectedFile = null;
+                // originalFileName = ''; // نتركها للاستخدام في الرابط
             }
         }
 
-        function showMessage(msg, type) {
-            statusMessage.textContent = msg;
-            statusMessage.className = "text-sm font-medium transition-all duration-300 " + 
-                (type === 'success' ? 'text-emerald-400' : type === 'error' ? 'text-red-400' : 'text-gray-400');
+
+        // -----------------------------------
+        // منطق الحذف (مطابق للبايثون)
+        // -----------------------------------
+        /**
+         * @param {Uint8Array} data
+         * @returns {{modifiedData: Uint8Array, success: boolean, message: string}}
+         */
+        function removeUidPattern(data) {
+            const buffer = data;
+            let index = -1;
+            
+            for (let i = buffer.length - 7; i >= 0; i--) {
+                if (buffer[i] === 0x38 && buffer[i + 6] === 0x42) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index === -1) {
+                return { modifiedData: data, success: false, message: 'النمط (0x38......0x42) غير موجود.' };
+            }
+
+            const newBuf = new Uint8Array(buffer.length - 4);
+            newBuf.set(buffer.subarray(0, index), 0);
+            newBuf.set([0x38, 0x00, 0x42], index);
+            newBuf.set(buffer.subarray(index + 7), index + 3);
+
+            return { modifiedData: newBuf, success: true, message: 'تم الحذف' };
+        }
+
+        // -----------------------------------
+        // منطق الإضافة (مطابق للبايثون)
+        // -----------------------------------
+        /**
+         * @param {Uint8Array} data
+         * @returns {{modifiedData: Uint8Array, success: boolean, message: string}}
+         */
+        function addUidPattern(data) {
+            const buffer = data;
+            let index = -1;
+
+            for (let i = 0; i < buffer.length - 2; i++) {
+                if (buffer[i] === 0x38 && buffer[i + 1] === 0x00 && buffer[i + 2] === 0x42) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index === -1) {
+                return { modifiedData: data, success: false, message: 'النمط (0x38 00 42) غير موجود للإضافة.' };
+            }
+
+            const insertBytes = new Uint8Array([0x11, 0x22, 0x33, 0x44]);
+            const newBuf = new Uint8Array(buffer.length + 4);
+
+            newBuf.set(buffer.subarray(0, index + 1), 0);
+            newBuf.set(insertBytes, index + 1);
+            newBuf.set(buffer.subarray(index + 1), index + 5);
+
+            return { modifiedData: newBuf, success: true, message: 'تمت الإضافة' };
         }
     </script>
 </body>
